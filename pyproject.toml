@@ -1,0 +1,22 @@
+[project]
+name = "scrunkly"
+version = "0.0.1"
+authors = [
+  { name="Noku", email="noku@onlypa.ws" },
+]
+description = "A script runner for the modern age."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/nokusukun/scrunkly"
+Issues = "https://github.com/nokusukun/scrunkly/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
