@@ -29,7 +29,7 @@ def scripts(script_map: dict):
                     subprocess.run(s.format(*sys.argv[2:]), shell=True)
             else:
                 if callable(s):
-                    s(*sys.argv[2:])
+                    s()
                 else:
                     subprocess.run(s, shell=True)
 
