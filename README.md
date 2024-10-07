@@ -16,8 +16,6 @@ You can install the required dependencies with `pipenv`:
 pip install scrunkly
 ```
 
-Ensure that Python is installed on your machine. Scrunkly will attempt to automatically detect the correct Python executable (e.g., `python`, `python3`, or `py`).
-
 ## Usage
 
 Define your scripts in a dictionary and pass it to `scrunkly.scripts`. You can map script names to shell commands or Python functions. Sub-scripts are supported, allowing a script to trigger other scripts in the map.
@@ -55,14 +53,6 @@ You can chain multiple scripts together using a list of script names. For exampl
 
 ```bash
 python run.py setup:dev
-```
-
-### Error Handling
-
-Scrunkly ensures that scripts do not reference themselves, preventing infinite loops. If a script attempts to call itself, an error will be raised:
-
-```
-Exception: Cannot call self-referencing script
 ```
 
 
