@@ -26,14 +26,20 @@ Here's an example usage:
 # run.py
 from scrunkly import scripts, py
 
+def get_available_port() -> int:
+    ...
+
+def instructions():
+    ...
+
 scripts({
-    "api:prod": f"{py} -m uvicorn api:app --host 0.0.0.0",
+    "api:prod": f"{py} -m uvicorn api:app --host 0.0.0.0 --port {get_available_port()}",
     "api:dev": f"{py} -m uvicorn api:app --reload",
     "worker": f"{py} worker-runner.py",
     "install": f"{py} -m pipenv install",
     "mongo:dev": "docker run -d --name api-dev -p 27017:27017 mongo",
     "data-import": f"{py} ./scripts/part_data_import.py",
-    "setup:dev": ["mongo:dev", "data-import"],
+    "setup:dev": ["mongo:dev", "data-import", instructions],
 })
 ```
 
