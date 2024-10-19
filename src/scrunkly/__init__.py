@@ -7,8 +7,9 @@ def if_file_exists(file: str):
     return os.path.isfile(file)
 
 def cmd():
-    print("Scrunkly")
+    print("Scrunkly", os.getcwd())
     try:
+        sys.path.append(os.getcwd())
         import scripts
     except ImportError:
         print("No scripts.py found")
