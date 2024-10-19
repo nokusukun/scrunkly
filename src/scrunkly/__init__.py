@@ -1,6 +1,22 @@
+import contextvars
+import os
 import subprocess
 import sys
 
+def cmd():
+    print("Scrunkly")
+
+__env = contextvars.ContextVar("env", default={})
+def with_env(envs: dict):
+    __env.set(envs)
+    return lambda : ...
+
+def __get_envs():
+    env = os.environ.copy()
+    try:
+        return env | __env.get()
+    except LookupError:
+        return env
 
 def scripts(script_map: dict):
     if len(sys.argv) < 2:
@@ -26,12 +42,12 @@ def scripts(script_map: dict):
                 if callable(s):
                     s(*sys.argv[2:])
                 else:
-                    subprocess.run(s.format(*sys.argv[2:]), shell=True)
+                    subprocess.run(s.format(*sys.argv[2:]), env=__get_envs(), shell=True)
             else:
                 if callable(s):
                     s()
                 else:
-                    subprocess.run(s, shell=True)
+                    subprocess.run(s, env=__get_envs(), shell=True)
 
     run_script(tool, script_map[tool])
 
