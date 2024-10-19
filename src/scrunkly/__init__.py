@@ -3,8 +3,16 @@ import os
 import subprocess
 import sys
 
+def if_file_exists(file: str):
+    return os.path.isfile(file)
+
 def cmd():
     print("Scrunkly")
+    try:
+        import scripts
+    except ImportError:
+        print("No scripts.py found")
+        return
 
 __env = contextvars.ContextVar("env", default={})
 def with_env(envs: dict):
@@ -21,8 +29,9 @@ def __get_envs():
 def scripts(script_map: dict):
     if len(sys.argv) < 2:
         print("Please provide a script to run")
-        for k in script_map.keys():
+        for k, script in script_map.items():
             print(f"  {k}")
+            print(f"    - {script}")
         return
     tool = sys.argv[1]
 
