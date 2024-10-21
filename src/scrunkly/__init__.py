@@ -7,13 +7,18 @@ def if_file_exists(file: str):
     return os.path.isfile(file)
 
 def cmd():
-    print("Scrunkly", os.getcwd())
+    sys.path.append(os.getcwd())
     try:
-        sys.path.append(os.getcwd())
         import scripts
     except ImportError:
-        print("No scripts.py found")
-        return
+        ...
+
+    try:
+        import run
+    except ImportError:
+        print("No scripts.py or run.py found")
+        sys.exit(1)
+
 
 __env = contextvars.ContextVar("env", default={})
 def with_env(envs: dict):
