@@ -1,6 +1,6 @@
 [project]
 name = "scrunkly"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
   { name="Noku", email="noku@onlypa.ws" },
 ]

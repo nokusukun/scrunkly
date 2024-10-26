@@ -22,8 +22,8 @@ def cmd():
 
 __env = contextvars.ContextVar("env", default={})
 def with_env(envs: dict):
-    __env.set(envs)
-    return lambda : ...
+    return lambda : __env.set(envs)
+
 
 def __get_envs():
     env = os.environ.copy()
@@ -41,11 +41,11 @@ def scripts(script_map: dict):
         return
     tool = sys.argv[1]
 
-    def run_script(name, script):
-        print(f"Running script: {script}")
-        if isinstance(script, str) or callable(script):
-            script = [script]
-        for s in script:
+    def run_script(name, script_):
+        print(f"Running script: {script_}")
+        if isinstance(script_, str) or callable(script_):
+            script_ = [script_]
+        for s in script_:
             if s in script_map:
                 if s == name:
                     raise Exception("Cannot call self-referencing script")
@@ -67,3 +67,4 @@ def scripts(script_map: dict):
     run_script(tool, script_map[tool])
 
 py = sys.executable
+args = sys.argv[1:]
