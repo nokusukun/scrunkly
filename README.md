@@ -48,6 +48,8 @@ scripts({
 You can run a script by providing its name as a command-line argument:
 
 ```bash
+scrunkly api:dev
+-- or --
 python run.py api:dev
 ```
 
@@ -58,6 +60,8 @@ This will execute the corresponding script, such as starting the API in developm
 You can chain multiple scripts together using a list of script names. For example, the `setup:dev` script runs two scripts: `mongo:dev` and `data-import`:
 
 ```bash
+scrunkly setup:dev
+-- or --
 python run.py setup:dev
 ```
 
