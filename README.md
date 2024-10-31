@@ -65,6 +65,52 @@ scrunkly setup:dev
 python run.py setup:dev
 ```
 
+### Environment Variables
+
+Environment variables can be loaded in through the `with_env` method. It will check for environment variables in the following order:
+
+* os.environ
+* .env
+* with_env
+
+```python
+import scrunkly
+from scrunkly import with_env, py
+
+dev_env = with_env({
+    "DEBUG": "1",
+    "MONGO_DB_URI": "mongodb://localhost:27017",
+    "MESSAGING_URL": "mongodb://localhost:27017",
+    "MONGO_DB_NAME": "test",
+    "AWS_REGION": "ap-southeast-2",
+    "AWS_S3_BUCKET_NAME": "test-...",
+    "AWS_ACCESS_KEY_ID": "AKI...",  # these only have access to test buckets
+    "AWS_SECRET_ACCESS_KEY": "eyFi7...",
+})
+
+prod_env = with_env({
+    "DEBUG": "0",
+    "MONGO_DB_NAME": "prod",
+    "AWS_REGION": "ap-southeast-2",
+    "AWS_S3_BUCKET_NAME": "prod-...",
+})
+
+scrunkly.scripts({
+    "api:dev": [dev_env, f"""{py} -m watchfiles --filter python "uvicorn api.api:app --port 8001" ."""],
+    "api:prod": [prod_env, f"{py} -m uvicorn api.api:app --host 0.0.0.0 --port 8080"],
+    "reqs:generate": f"{py} -m  pipreqs.pipreqs . --force",
+    "worker": f"{py} ./run_worker.py",
+    "install:dev": f"{py} -m pip install -r dev-requirements.txt",
+    "install:app": f"{py} -m pip install -r requirements.txt",
+    "load-data": f"{py} ./scripts/part_data_import.py --force",
+    "install": ["install:dev", "install:app", "load-data"],
+    "api:compose:rebuild": "docker-compose up -d --no-deps --build api",
+    "worker:compose:rebuild": "docker-compose up -d --no-deps --build worker",
+    "up:prod": "docker-compose up -d --scale worker=10",
+    "up:prod:full": "docker-compose up -d --scale worker=10 --build",
+})
+
+```
 
 ## Contributing
 
